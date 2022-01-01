@@ -21,9 +21,9 @@ suite("Basic tests", () => {
     const opamRoot = path.join(os.tmpdir(), "opam-root");
     fs.copySync(sampleOpamSrc, projectPath);
     cp.execSync(`mkdir -p ${opamRoot}`);
-    cp.execSync(`sh -c 'opam install . --deps-only --yes > /dev/null'`, {
-      cwd: projectPath,
-    }).toString();
+    // cp.execSync(`sh -c 'opam install . --deps-only --yes > /dev/null'`, {
+    //   cwd: projectPath,
+    // }).toString();
     const projectUri = Uri.file(projectPath);
     await vscode.commands.executeCommand("vscode.openFolder", projectUri);
     const ocamlDocument1 = await vscode.workspace.openTextDocument(
