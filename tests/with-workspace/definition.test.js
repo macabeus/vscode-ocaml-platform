@@ -8,7 +8,7 @@ const waitForDefinitions = async (uri, position) => {
   });
 };
 
-describe("#Definition", () => {
+describe.skip("#Definition", () => {
   describe("on a function call", () => {
     it("go to the function declaration", () => {
       return using(

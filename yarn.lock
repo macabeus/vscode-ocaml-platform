@@ -2168,10 +2168,10 @@ jest-environment-node@27.4.4, jest-environment-node@^27.4.4:
     jest-mock "^27.4.2"
     jest-util "^27.4.2"
 
-jest-environment-vscode-extension@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/jest-environment-vscode-extension/-/jest-environment-vscode-extension-0.0.2.tgz#fbdf200bc016d6f0481a71558d7f0759e39fc464"
-  integrity sha512-P4zVQX/zZ5yOFSzYwWZrE79NOsoAtHfIo1hWByV/LqMW70jyA6BeQ+gt3tqJJ83Zps/lO6f04WLGZ2FPnUSj8A==
+jest-environment-vscode-extension@0.0.2-rc3:
+  version "0.0.2-rc3"
+  resolved "https://registry.yarnpkg.com/jest-environment-vscode-extension/-/jest-environment-vscode-extension-0.0.2-rc3.tgz#cb8da7d5e8e151a0a71f6de2d00c51514b7f0903"
+  integrity sha512-zGFUtQneEy4DuCcMqc2TTNPlllQPUGGqQ/3+IC4EEby+ToGTqyE5VDi0m9B/OqMuHtZM4CuDuCAqbtWRHs/b2A==
   dependencies:
     "@vscode/test-electron" "2.0.0"
     dedent-js "1.0.1"

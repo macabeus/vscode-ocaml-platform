@@ -13,7 +13,7 @@ jest.setTimeout(9999_000);
 
 describe("#Hover", () => {
   describe("on a function declaration", () => {
-    it("shows the parameters and return types", () => {
+    it.only("shows the parameters and return types", () => {
       return using(
         {
           files: {
@@ -37,7 +37,7 @@ describe("#Hover", () => {
 
           expect(hovers).toEqual(["```ocaml\nunit -> unit\n```"]);
 
-          // await wait(2_000)
+          await wait(2_000)
         }
       );
     });

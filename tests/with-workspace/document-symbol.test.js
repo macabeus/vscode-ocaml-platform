@@ -8,7 +8,7 @@ const waitForDocumentSymbols = async (uri) => {
   });
 };
 
-describe("#Document Symbol", () => {
+describe.skip("#Document Symbol", () => {
   it("includes function declaration", () => {
     return using(
       {
