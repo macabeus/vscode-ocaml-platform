@@ -1,4 +1,4 @@
-const { Position, Range, commands } = vscode;
+const { Position, Range, commands, workspace } = vscode;
 
 const waitForDefinitions = async (uri, position) => {
   return await waitFor(async () => {
@@ -24,7 +24,7 @@ describe("#Definition", () => {
             "window.showQuickPick": jest
               .fn()
               .mockImplementation(async (items) => {
-                return items[0];
+                return items.find(({ label }) => label === "default");
               }),
           },
         },
@@ -59,7 +59,7 @@ describe("#Definition", () => {
             "window.showQuickPick": jest
               .fn()
               .mockImplementation(async (items) => {
-                return items[0];
+                return items.find(({ label }) => label === "default");
               }),
           },
         },

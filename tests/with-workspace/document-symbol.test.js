@@ -19,7 +19,7 @@ describe("#Document Symbol", () => {
           "window.showQuickPick": jest
             .fn()
             .mockImplementation(async (items) => {
-              return items[0];
+              return items.find(({ label }) => label === "default");
             }),
         },
       },
@@ -51,7 +51,7 @@ describe("#Document Symbol", () => {
           "window.showQuickPick": jest
             .fn()
             .mockImplementation(async (items) => {
-              return items[0];
+              return items.find(({ label }) => label === "default");
             }),
         },
       },

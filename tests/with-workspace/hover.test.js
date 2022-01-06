@@ -8,6 +8,9 @@ const waitForHovers = async (uri, position) => {
   });
 };
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+jest.setTimeout(9999_000);
+
 describe("#Hover", () => {
   describe("on a function declaration", () => {
     it("shows the parameters and return types", () => {
@@ -20,7 +23,7 @@ describe("#Hover", () => {
             "window.showQuickPick": jest
               .fn()
               .mockImplementation(async (items) => {
-                return items[0];
+                return items.find(({ label }) => label === "default");
               }),
           },
         },
@@ -33,6 +36,8 @@ describe("#Hover", () => {
           );
 
           expect(hovers).toEqual(["```ocaml\nunit -> unit\n```"]);
+
+          // await wait(2_000)
         }
       );
     });
@@ -53,7 +58,7 @@ describe("#Hover", () => {
             "window.showQuickPick": jest
               .fn()
               .mockImplementation(async (items) => {
-                return items[0];
+                return items.find(({ label }) => label === "default");
               }),
           },
         },
