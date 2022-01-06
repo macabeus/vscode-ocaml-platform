@@ -15,6 +15,68 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "create-test-workspace-folder",
+      "type": "shell",
+      "command": "mkdir",
+      "args": ["-p", "test-workspace"],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "remove-test-workspace-folder",
+      "type": "shell",
+      "command": "rm",
+      "args": ["-rf", "test-workspace"],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "insert-monkey-patch-allow-mocks",
+      "type": "shell",
+      "command": "node ./node_modules/.bin/insert-monkey-patch-allow-mocks ${workspaceFolder}",
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "drop-monkey-patch-allow-mocks",
+      "type": "shell",
+      "command": "node ./node_modules/.bin/drop-monkey-patch-allow-mocks ${workspaceFolder}",
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "pre-run-tests",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "remove-test-workspace-folder",
+        "create-test-workspace-folder",
+        "insert-monkey-patch-allow-mocks"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
+    },
+    {
+      "label": "post-run-tests",
+      "dependsOn": [
+        "remove-test-workspace-folder",
+        "drop-monkey-patch-allow-mocks"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem"
+      }
     }
   ]
 }

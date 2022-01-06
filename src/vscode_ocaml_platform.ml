@@ -55,9 +55,9 @@ let activate (extension : ExtensionContext.t) =
       Promise.return ()
   in
   let (_ : unit Promise.t) =
-    let* sandbox_opt = sandbox_opt in
+    (* let* sandbox_opt = sandbox_opt in
     let sandbox = Option.value sandbox_opt ~default:Sandbox.Global in
-    Extension_instance.set_sandbox instance sandbox;
+    Extension_instance.set_sandbox instance sandbox; *)
     let* () = Extension_instance.update_ocaml_info instance in
     let+ () = Extension_instance.start_language_server instance in
     ()

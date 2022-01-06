@@ -27,6 +27,40 @@
         "${workspaceRoot}/_build/default/src/vscode_ocaml_platform.bc.js"
       ],
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"]
+    },
+    {
+      "name": "Test Extension - No Workspace",
+      "preLaunchTask": "pre-run-tests",
+      "postDebugTask": "post-run-tests",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "/no-workspace",
+        "--disable-extensions",
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--extensionTestsPath=${workspaceFolder}/node_modules/.bin/vscode-tests-runner"
+      ],
+      "env": {
+        "VSCODE_TESTS_PATH": "${workspaceFolder}/tests/no-workspace/"
+      }
+    },
+    {
+      "name": "Test Extension - With Workspace",
+      "preLaunchTask": "pre-run-tests",
+      "postDebugTask": "post-run-tests",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "${workspaceFolder}/test-workspace",
+        "--disable-extensions",
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--extensionTestsPath=${workspaceFolder}/node_modules/.bin/vscode-tests-runner"
+      ],
+      "env": {
+        "VSCODE_TESTS_PATH": "${workspaceFolder}/tests/with-workspace/"
+      }
     }
   ]
 }
