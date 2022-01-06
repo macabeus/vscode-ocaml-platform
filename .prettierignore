@@ -10,3 +10,8 @@ test/fixtures/sample-esy/esy.lock/
 
 # Normal npm stuff
 node_modules/
+
+#
+.vscode-test/
+astexplorer/dist/
+dist/

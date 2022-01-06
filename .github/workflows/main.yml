@@ -45,12 +45,6 @@ jobs:
       - name: Use latest esy
         run: npm install --global esy
 
-      - name: Install and build esy packages
-        uses: esy/github-action@v1
-        with:
-          working-directory: test/fixtures/sample-esy
-          cache-key: ${{ hashFiles('esy.lock/index.json') }}
-
       - name: Install npm packages
         run: |
           yarn --frozen-lockfile --cwd astexplorer
@@ -65,110 +59,117 @@ jobs:
       - name: Package extension
         run: yarn package
 
-      - name: Upload artifact
-        if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v2
-        with:
-          name: ocaml-platform-${{ github.sha }}
-          path: ocaml-platform.vsix
+      # - name: Upload artifact
+      #   if: runner.os == 'Linux'
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ocaml-platform-${{ github.sha }}
+      #     path: ocaml-platform.vsix
 
-      - name: Test extension
+      - name: Test extension - No workspace
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: yarn test
+          run: yarn test:ci:no-workspace
         env:
           OPAMSWITCH: ${{ github.workspace }}
 
-      - name: Publish extension to VSCode Marketplace
-        if: success() && runner.os == 'Linux' && contains(github.ref, 'refs/tags')
-        run: yarn deploy:vsce
+      - name: Test extension - With workspace
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test:ci:with-workspace
         env:
-          VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
+          OPAMSWITCH: ${{ github.workspace }}
 
-      - name: Publish extension to Open VSX
-        if: success() && runner.os == 'Linux' && contains(github.ref, 'refs/tags')
-        run: yarn deploy:ovsx --pat "$OVSX_PAT"
-        env:
-          OVSX_PAT: ${{ secrets.OPEN_VSX_TOKEN }}
+      # - name: Publish extension to VSCode Marketplace
+      #   if: success() && runner.os == 'Linux' && contains(github.ref, 'refs/tags')
+      #   run: yarn deploy:vsce
+      #   env:
+      #     VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
 
-      - name: Create release
-        if: runner.os == 'Linux' && contains(github.ref, 'refs/tags')
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: true
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      # - name: Publish extension to Open VSX
+      #   if: success() && runner.os == 'Linux' && contains(github.ref, 'refs/tags')
+      #   run: yarn deploy:ovsx --pat "$OVSX_PAT"
+      #   env:
+      #     OVSX_PAT: ${{ secrets.OPEN_VSX_TOKEN }}
 
-      - name: Upload release asset
-        if: runner.os == 'Linux' && contains(github.ref, 'refs/tags')
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ocaml-platform.vsix
-          asset_name: ocaml-platform.vsix
-          asset_content_type: application/zip
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      # - name: Create release
+      #   if: runner.os == 'Linux' && contains(github.ref, 'refs/tags')
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: ${{ github.ref }}
+      #     draft: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
 
-  lint-opam:
-    strategy:
-      matrix:
-        ocaml-compiler:
-          - 4.13.x
-        node-version:
-          - 14.x
+      # - name: Upload release asset
+      #   if: runner.os == 'Linux' && contains(github.ref, 'refs/tags')
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./ocaml-platform.vsix
+      #     asset_name: ocaml-platform.vsix
+      #     asset_content_type: application/zip
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
 
-    runs-on: ubuntu-latest
+  # lint-opam:
+  #   strategy:
+  #     matrix:
+  #       ocaml-compiler:
+  #         - 4.13.x
+  #       node-version:
+  #         - 14.x
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #   runs-on: ubuntu-latest
 
-      - name: Use OCaml ${{ matrix.ocaml-compiler }}
-        uses: ocaml/setup-ocaml@v2
-        with:
-          ocaml-compiler: ${{ matrix.ocaml-compiler }}
-          dune-cache: true
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+  #     - name: Use OCaml ${{ matrix.ocaml-compiler }}
+  #       uses: ocaml/setup-ocaml@v2
+  #       with:
+  #         ocaml-compiler: ${{ matrix.ocaml-compiler }}
+  #         dune-cache: true
 
-      - name: Install npm packages
-        run: |
-          yarn --frozen-lockfile --cwd astexplorer
-          yarn --frozen-lockfile
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
-      - run: opam depext opam-dune-lint --install
+  #     - name: Install npm packages
+  #       run: |
+  #         yarn --frozen-lockfile --cwd astexplorer
+  #         yarn --frozen-lockfile
 
-      - run: opam install . --deps-only
+  #     - run: opam depext opam-dune-lint --install
 
-      - run: opam exec -- make build-release
+  #     - run: opam install . --deps-only
 
-      - run: opam exec -- opam-dune-lint
+  #     - run: opam exec -- make build-release
 
-  lint-fmt:
-    strategy:
-      matrix:
-        ocaml-compiler:
-          - 4.13.x
+  #     - run: opam exec -- opam-dune-lint
 
-    runs-on: ubuntu-latest
+  # lint-fmt:
+  #   strategy:
+  #     matrix:
+  #       ocaml-compiler:
+  #         - 4.13.x
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #   runs-on: ubuntu-latest
 
-      - name: Use OCaml ${{ matrix.ocaml-compiler }}
-        uses: ocaml/setup-ocaml@v2
-        with:
-          ocaml-compiler: ${{ matrix.ocaml-compiler }}
-          dune-cache: true
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - run: opam depext --install ocamlformat=$(awk -F = '/version=/{print $2}' .ocamlformat)
+  #     - name: Use OCaml ${{ matrix.ocaml-compiler }}
+  #       uses: ocaml/setup-ocaml@v2
+  #       with:
+  #         ocaml-compiler: ${{ matrix.ocaml-compiler }}
+  #         dune-cache: true
 
-      - run: opam exec -- dune build @fmt
+  #     - run: opam depext --install ocamlformat=$(awk -F = '/version=/{print $2}' .ocamlformat)
+
+  #     - run: opam exec -- dune build @fmt
