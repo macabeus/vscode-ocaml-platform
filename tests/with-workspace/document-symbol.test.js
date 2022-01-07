@@ -3,7 +3,7 @@ const { Position, SymbolKind, Range, commands } = vscode;
 const waitForDocumentSymbols = async (uri) => {
   return await waitFor(async () => {
     const documentSymbols = await take.documentSymbols(uri);
-    expect(documentSymbols).toHaveLength(1);
+    expect(documentSymbols).not.toHaveLength(0);
     return documentSymbols;
   });
 };
