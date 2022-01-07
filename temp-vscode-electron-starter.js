@@ -112,7 +112,7 @@ const start = async () => {
 
   const extensionTestsPath = path.resolve(
     extensionDevelopmentPath,
-    "node_modules/.bin/vscode-tests-runner"
+    "node_modules/jest-environment-vscode-extension/cli/vscode-tests-runner.js"
   );
 
   recreateTestWorkspaceFolder(extensionDevelopmentPath);

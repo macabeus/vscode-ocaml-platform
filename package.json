@@ -950,8 +950,8 @@
     ]
   },
   "scripts": {
-    "test:ci:no-workspace": "vscode-electron-starter no-workspace stable tests/no-workspace",
-    "test:ci:with-workspace": "vscode-electron-starter with-workspace stable tests/with-workspace",
+    "test:ci:no-workspace": "node ./temp-vscode-electron-starter.js no-workspace stable tests/no-workspace",
+    "test:ci:with-workspace": "node ./temp-vscode-electron-starter.js with-workspace stable tests/with-workspace",
     "test": "npm-run-all -s test:*:*",
     "package": "vsce package --out ocaml-platform.vsix --yarn",
     "deploy:vsce": "vsce publish --packagePath ocaml-platform.vsix --yarn",
