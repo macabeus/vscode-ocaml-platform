@@ -13,7 +13,7 @@ describe("#Document Symbol", () => {
     return using(
       {
         files: {
-          "main.ml": 'let hello () = print_endline "hey there"',
+          "foo.ml": 'let hello () = print_endline "hey there"',
         },
         mocks: {
           "window.showQuickPick": jest
@@ -28,7 +28,7 @@ describe("#Document Symbol", () => {
       async (mapFileToUri) => {
         await commands.executeCommand("ocaml.select-sandbox");
 
-        const symbols = await waitForDocumentSymbols(mapFileToUri["main.ml"]);
+        const symbols = await waitForDocumentSymbols(mapFileToUri["foo.ml"]);
 
         expect(symbols[0]).toMatchObject({
           name: "hello",
@@ -47,7 +47,7 @@ describe("#Document Symbol", () => {
     return using(
       {
         files: {
-          "main.ml": "type foo = true",
+          "bar.ml": "type foo = true",
         },
         mocks: {
           "window.showQuickPick": jest
@@ -62,7 +62,7 @@ describe("#Document Symbol", () => {
       async (mapFileToUri) => {
         await commands.executeCommand("ocaml.select-sandbox");
 
-        const symbols = await waitForDocumentSymbols(mapFileToUri["main.ml"]);
+        const symbols = await waitForDocumentSymbols(mapFileToUri["bar.ml"]);
 
         expect(symbols[0]).toMatchObject({
           name: "foo",

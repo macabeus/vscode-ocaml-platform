@@ -42,9 +42,6 @@ jobs:
       - name: Install opam packages
         run: opam install . --deps-only --with-test
 
-      - name: Install ocaml-lsp-server
-        run: opam install ocaml-lsp-server
-
       - name: Use latest esy
         run: npm install --global esy
 
